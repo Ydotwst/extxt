@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image to Text Search｜画像内テキスト検索</title>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Image to Text Search</h1>
+    <p>画像内の文字をOCRで読み取り、キーワード検索できます（日本語・英語対応）</p>
+  </div>
+</header>
+
+<div class="container">
+  <div class="layout">
+
+    <!-- ===== 左カラム: アップロード・結果 ===== -->
+    <div class="left-col">
+
+      <!-- アップロードエリア -->
+      <div class="card">
+        <div class="card-title"><span class="step-num">1</span> 画像をアップロード</div>
+        <input type="file" id="fileInput" accept="image/*" multiple style="display:none" />
+        <div class="drop-zone" id="dropZone">
+          <div class="dz-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
+              <rect x="4" y="8" width="44" height="36" rx="4" stroke="#9ca3af" stroke-width="2.5" fill="none"/>
+              <polyline points="4,36 16,22 24,30 32,20 48,36" stroke="#9ca3af" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+              <circle cx="38" cy="20" r="4" stroke="#9ca3af" stroke-width="2.5" fill="none"/>
+              <line x1="26" y1="52" x2="26" y2="44" stroke="#2C697A" stroke-width="2.5" stroke-linecap="round"/>
+              <polyline points="21,48 26,43 31,48" stroke="#2C697A" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <div class="dz-main">ドラッグ&ドロップ</div>
+          <div class="dz-sub">PNG / JPG / WEBP / GIF</div>
+          <button class="dz-pick-btn" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">
+            ファイルを選択
+          </button>
+        </div>
+        <div class="image-grid" id="imageGrid"></div>
+        <div id="fileSummary" style="display:none"></div>
+        <div id="fileWarnings" class="file-warnings"></div>
+      </div>
+
+      <!-- 結果エリア -->
+      <div id="results">
+        <div class="empty-state">
+          <div class="es-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
+              <circle cx="22" cy="22" r="14" stroke="#d1d5db" stroke-width="3" fill="none"/>
+              <line x1="32" y1="32" x2="46" y2="46" stroke="#d1d5db" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="es-title">検索する準備ができていません</div>
+          <div class="es-desc">画像をアップロードし、「テキストを読み取る」を実行してください。</div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /左カラム -->
+
+    <!-- ===== 右カラム: 設定・検索バー ===== -->
+    <div class="right-col">
+
+      <!-- 設定エリア -->
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px;"><span class="step-num">2</span> 設定 &amp; 読み取り</div>
+
+        <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;">認識言語</div>
+        <div class="lang-badges" id="langBadges">
+          <span class="lang-badge selected" data-lang="jpn">日本語</span>
+          <span class="lang-badge selected" data-lang="eng">英語</span>
+        </div>
+
+        <label class="toggle-row" style="margin-top:14px;">
+          <span class="toggle-switch">
+            <input type="checkbox" id="circledToggle" checked onchange="onToggleCircled()" />
+            <span class="toggle-track"></span>
+            <span class="toggle-knob"></span>
+          </span>
+          <span>
+            <strong>丸数字 → アラビア数字に変換</strong>（①② → 1 2）
+            <div class="toggle-desc">OCRが誤認識した場合に補正。本来の丸数字が含まれる場合はOFF。</div>
+          </span>
+        </label>
+
+        <div class="notice" style="margin-top:14px;">
+          <span class="notice-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="10" y="5" width="4" height="10" rx="2"/>
+              <rect x="10" y="18" width="4" height="4" rx="2"/>
+            </svg>
+          </span>
+          初回実行時、言語モデルをダウンロードします（日本語 約20MB・英語 約4MB）。2回目以降はキャッシュされます。
+        </div>
+
+        <div class="action-bar" style="margin-top:16px;">
+          <button class="btn btn-primary" id="ocrBtn" disabled onclick="startOCR()">
+            テキストを読み取る
+          </button>
+          <button class="btn btn-ghost" id="clearBtn" disabled onclick="clearAll()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px;vertical-align:-2px;"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>削除
+          </button>
+        </div>
+
+        <!-- プログレスバー -->
+        <div class="global-progress" id="globalProgress" style="margin-top:14px;margin-bottom:0;">
+          <div class="gp-label" id="gpLabel">処理中...</div>
+          <div class="gp-bar-bg"><div class="gp-bar-fill" id="gpFill" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <!-- 検索バー（設定・ボタンの下） -->
+      <div class="card">
+        <div class="card-title" style="margin-bottom:12px;"><span class="step-num">3</span> テキストを入力</div>
+        <div class="search-wrap">
+          <input type="text" class="search-input" id="searchInput"
+                 placeholder="先に画像を読み取ってください..."
+                 disabled
+                 oninput="doSearch()" onkeydown="if(event.key==='Enter')doSearch()" />
+        </div>
+        <div class="search-stat" id="searchStat"></div>
+      </div>
+
+    </div>
+    <!-- /右カラム -->
+
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Y (dot) WORKSTUDIO</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
