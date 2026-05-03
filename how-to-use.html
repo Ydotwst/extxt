@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Extxt｜エクステキスト｜使い方ガイド</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .guide-intro { font-size:14px; line-height:2; color:#374151; }
+
+    /* Step cards */
+    .step-icon-wrap {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--brand); flex-shrink: 0; margin-bottom: 14px;
+    }
+    .step-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--muted); margin-bottom: 4px;
+    }
+    .step-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+    .step-desc { font-size: 13px; line-height: 1.9; color: #4b5563; }
+    .step-tip {
+      margin-top: 12px; padding: 10px 14px;
+      background: #f0fdf4; border: 1px solid #86efac;
+      border-radius: 9px; font-size: 12px; color: #166534; line-height: 1.8;
+    }
+
+    /* Feature grid */
+    .feature-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 16px; margin-top: 4px;
+    }
+    .feature-item { display: flex; gap: 12px; align-items: flex-start; }
+    .feature-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #64748b; flex-shrink: 0; margin-top: 1px;
+    }
+    .feature-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+    .feature-desc { font-size: 12px; line-height: 1.85; color: #4b5563; }
+
+    /* Storage grid */
+    .storage-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 14px; margin-top: 4px;
+    }
+    .storage-inner {
+      background: #f9fafb; border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px 18px;
+    }
+    .storage-inner-title {
+      font-size: 13px; font-weight: 700; color: var(--text);
+      margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+    }
+    .storage-desc { font-size: 12px; line-height: 1.85; color: #4b5563; }
+
+    /* Note list */
+    .note-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .note-list li {
+      font-size: 13px; line-height: 1.85; color: #374151;
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .note-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--brand); flex-shrink: 0; margin-top: 8px;
+    }
+
+    /* Section label above mid-row */
+    .section-heading {
+      font-size: 13px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--muted); margin-bottom: 10px; margin-top: 24px;
+    }
+
+    /* Back / open app link */
+    .app-link {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 13px; font-weight: 600; color: var(--brand);
+      text-decoration: none; padding: 9px 18px;
+      border: 1.5px solid var(--border); border-radius: 50px;
+      transition: all .15s; margin-top: 16px;
+    }
+    .app-link:hover { border-color: var(--brand); background: var(--brand-light); }
+
+    @media (max-width: 700px) {
+      .feature-grid, .storage-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <img src="logo.gif" alt="Extxt（エクステキスト）" class="header-logo" />
+    <p>Extxt（エクステキスト）の機能と操作方法を説明します</p>
+  </div>
+  <a href="index.html" class="header-guide-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2"/>
+      <polyline points="3,17 8,11 12,15 16,10 21,17"/>
+      <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor" stroke="none"/>
+    </svg>
+    アプリを開く
+  </a>
+</header>
+
+<div class="container">
+
+  <!-- ① Extxtについて -->
+  <div class="card">
+    <div class="card-title">
+      <span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#64748b;flex-shrink:0;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="white">
+          <rect x="10" y="5" width="4" height="10" rx="2"/>
+          <rect x="10" y="18" width="4" height="4" rx="2"/>
+        </svg>
+      </span>
+      Extxt（エクステキスト）について
+    </div>
+    <p class="guide-intro">
+      Extxt（エクステキスト）は画像の中に含まれるテキストをOCR（光学文字認識）で自動的に読み取り、キーワードで横断検索できるツールです。<br>
+      Extxtは、Extract（抽出）とText（テキスト）を組み合わせた造語で、画像からテキストを「抽出」して活用することをコンセプトにしています。<br>
+      すべての処理はブラウザ内で完結するため、画像やテキストが外部のサーバーに送信されることはありません。インターネット接続は、初回の言語モデル読み込み時のみ必要です。
+    </p>
+    <a href="index.html" class="app-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15,18 9,12 15,6"/>
+      </svg>
+      アプリを開く
+    </a>
+  </div>
+
+  <!-- ② 基本的な使い方 -->
+  <div class="section-heading">基本的な使い方</div>
+  <div class="mid-row">
+
+    <!-- Step 1 -->
+    <div class="card">
+      <div class="step-icon-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17,8 12,3 7,8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+      </div>
+      <div class="step-label">Step 1</div>
+      <div class="step-title">画像をアップロード</div>
+      <div class="step-desc">
+        ページ上部のアップロードエリアに、テキストが含まれる画像をドラッグ&ドロップするか、「ファイルを選択」ボタンから選んでください。PNG・JPG・WEBP・GIF 形式に対応しており、複数ファイルを一度にまとめて追加できます。<br><br>
+        アップロード済みの画像はサムネイル一覧で確認できます。不要な画像は、サムネイル右上の × ボタンで個別に削除できます。
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="card">
+      <div class="step-icon-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+      </div>
+      <div class="step-label">Step 2</div>
+      <div class="step-title">設定 &amp; 読み取り</div>
+      <div class="step-desc">
+        認識したい言語（日本語・英語）をバッジで選択し、「テキストを読み取る」ボタンをクリックしてください。複数枚の画像がある場合は、順番に自動で処理されます。進行状況はプログレスバーで確認できます。<br><br>
+        読み取りが完了すると、各サムネイルの枠がグリーンに変わります。
+      </div>
+      <div class="step-tip">
+        初回実行時は、言語モデルのダウンロードが発生します（日本語 約20MB・英語 約4MB）。2回目以降はキャッシュされるため、すばやく処理が始まります。
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="card">
+      <div class="step-icon-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </div>
+      <div class="step-label">Step 3</div>
+      <div class="step-title">テキストを検索</div>
+      <div class="step-desc">
+        読み取りが完了したら、検索バーにキーワードを入力してください。アップロードしたすべての画像のOCR結果を横断して検索し、一致した箇所を黄色くハイライト表示します。<br><br>
+        検索結果のカードをクリックすると、画像とテキストの詳細を展開して確認できます。
+      </div>
+    </div>
+
+  </div><!-- /mid-row -->
+
+  <!-- ③ 便利な機能 -->
+  <div class="card" style="margin-top:14px;">
+    <div class="card-title">
+      <span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#64748b;flex-shrink:0;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13,2 3,14 12,14 11,22 21,10 12,10 13,2"/>
+        </svg>
+      </span>
+      便利な機能
+    </div>
+    <div class="feature-grid">
+
+      <!-- タグ -->
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+            <line x1="7" y1="7" x2="7.01" y2="7"/>
+          </svg>
+        </div>
+        <div>
+          <div class="feature-title">タグで管理する</div>
+          <div class="feature-desc">各画像に任意のタグを付けることができます。検索バーの下に表示されるタグフィルターをクリックすると、そのタグが付いた画像だけに絞り込んで検索できます。プロジェクト名やカテゴリなど、自由に分類にお使いください。</div>
+        </div>
+      </div>
+
+      <!-- テキスト編集 -->
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="feature-title">OCRテキストを手動で修正する</div>
+          <div class="feature-desc">OCRの読み取り結果が正確でない場合、テキストを直接編集できます。検索結果カードを展開し、テキストエリアを修正して「編集を保存」ボタンをクリックしてください。編集したテキストは次回から検索対象になります。</div>
+        </div>
+      </div>
+
+      <!-- 確認済みマーク -->
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22,4 12,14.01 9,11.01"/>
+          </svg>
+        </div>
+        <div>
+          <div class="feature-title">確認済みマークをつける</div>
+          <div class="feature-desc">画像ごとに「確認済み / 未確認」のステータスを管理できます。大量の画像を処理する際、レビューの進捗管理にご活用ください。</div>
+        </div>
+      </div>
+
+      <!-- エクスポート -->
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7,10 12,15 17,10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </div>
+        <div>
+          <div class="feature-title">テキストをエクスポートする</div>
+          <div class="feature-desc">OCR結果をCSVファイルまたはテキストファイルとして書き出せます。他のツールへのデータ連携や、記録の保存にご利用ください。</div>
+        </div>
+      </div>
+
+    </div><!-- /feature-grid -->
+  </div>
+
+  <!-- ④ データの保存について -->
+  <div class="card" style="margin-top:14px;">
+    <div class="card-title">
+      <span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#64748b;flex-shrink:0;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="12" cy="5" rx="9" ry="3"/>
+          <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+          <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+        </svg>
+      </span>
+      データの保存について
+    </div>
+    <div class="storage-grid">
+
+      <div class="storage-inner">
+        <div class="storage-inner-title">
+          <span style="width:8px;height:8px;border-radius:50%;background:#f59e0b;flex-shrink:0;display:inline-block;"></span>
+          IndexedDB（デフォルト）
+        </div>
+        <div class="storage-desc">フォルダを接続しない場合、OCR結果・タグ・編集内容はブラウザの IndexedDB に自動保存されます。次回ページを開いたとき、同じ画像が自動的に復元され、再読み取りなしにすぐ検索できます。<br><br>ただし、ブラウザのデータを削除すると消えるためご注意ください。</div>
+      </div>
+
+      <div class="storage-inner">
+        <div class="storage-inner-title">
+          <span style="width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;display:inline-block;"></span>
+          フォルダ接続（推奨）
+        </div>
+        <div class="storage-desc">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;color:var(--brand);"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          「フォルダ接続」ボタンからローカルフォルダを指定すると、OCR結果・タグ・編集テキストを JSON ファイルとして保存します。<br><br>IndexedDB より安全に永続保存でき、フォルダを共有すれば複数の端末でのデータ引き継ぎも可能です。
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ⑤ 注意事項 -->
+  <div class="card" style="margin-top:14px;">
+    <div class="card-title">
+      <span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#64748b;flex-shrink:0;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </span>
+      注意事項
+    </div>
+    <ul class="note-list">
+      <li>
+        <span class="note-dot"></span>
+        <span>すべての処理はブラウザ内で完結します。画像・テキストが外部に送信されることはありません。</span>
+      </li>
+      <li>
+        <span class="note-dot"></span>
+        <span>推奨ブラウザは Chrome / Edge です。Safari では一部機能（フォルダ接続など）が動作しない場合があります。</span>
+      </li>
+      <li>
+        <span class="note-dot"></span>
+        <span>丸数字（①②③など）を含む画像は、OCRが誤認識する場合があります。「丸数字 → アラビア数字に変換」トグルをオフにすると、元の文字で認識します。</span>
+      </li>
+      <li>
+        <span class="note-dot"></span>
+        <span>画像の解像度が低い場合や、手書き文字・装飾フォントは、OCRの精度が下がる場合があります。テキスト編集機能で手動補正してご利用ください。</span>
+      </li>
+    </ul>
+  </div>
+
+</div><!-- /container -->
+
+<footer>
+  <p>© 2026 Y (dot) WORKSTUDIO</p>
+</footer>
+
+</body>
+</html>
